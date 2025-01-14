@@ -59,6 +59,7 @@ class SeriesListViewController: UIViewController {
     }
     
     func configureTableView() {
+        self.view.addSubview(self.tableView)
         self.view.backgroundColor = .systemBackground
         
         NSLayoutConstraint.activate([
@@ -109,8 +110,8 @@ extension SeriesListViewController: UITableViewDataSource {
         let cell: SeriesListTableViewCell = dequeue(with: .cell)
         if let models = self.viewModel.model {
             let model = models[row]
-            cell.title = model.text
-            
+            cell.title = model.name
+            cell.poster = model.image?.medium
         }
         return cell
     }

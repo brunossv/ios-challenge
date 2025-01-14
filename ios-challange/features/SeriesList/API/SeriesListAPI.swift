@@ -10,22 +10,35 @@
 
 import Foundation
 
+protocol HandlerResponse { }
+
+extension HandlerResponse {
+    
+    static func handler<T: Decodable>(_ model: T?,_ error: Error) -> Result<T?, Error> {
+        if let model = model {
+            return .success(model)
+        }
+        return .failure(error)
+    }
+
+}
+
 class SeriesListAPI: HandlerResponse {
     struct Resources {
-        static var url: String { get { Services.baseUrl + "/path" } }
+        static var url: String { get { Services.baseUrl + "/shows?page=1" } }
     }
     
     struct DataError: Error, LocalizedError {
         var errorDescription: String? {
-            return NSLocalizedString("error-localized-info", comment: "")
+            return "No Data"
         }
     }
     
-    func get(_ handler: @escaping (Result<Array<SeriesListModel>?, Error>) -> Void) {
+    func get(_ handler: @escaping (Result<[SeriesListModel]?, Error>) -> Void) {
         let api = Services()
         
-        api.request(Resources.url) { (model: Default<Array<SeriesListModel>>?, error) in
-            handler(SeriesListAPI.handler(model, [.cantFinish:SeriesListAPI.DataError()]))
+        api.request(Resources.url) { (model: [SeriesListModel]?, error) in
+            handler(SeriesListAPI.handler(model, SeriesListAPI.DataError()))
         }
     }
 }
