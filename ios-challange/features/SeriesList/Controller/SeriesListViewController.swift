@@ -30,8 +30,9 @@ class SeriesListViewController: UIViewController {
     }
     
     lazy var tableView: UITableView = {
-        let view = UITableView(frame: .zero, style: .insetGrouped)
+        let view = UITableView(frame: .zero, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.allowsSelection = false
         
         return view
     }()
@@ -85,16 +86,30 @@ extension SeriesListViewController: UITableViewDelegate {
 }
 
 extension SeriesListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if let model = self.viewModel.model, section < model.count {
+            let genresTitle = model[section].first?.genres?.first
+            let typeTitle = model[section].first?.type
+            return genresTitle ?? typeTitle ?? ""
+        }
+        
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 205
+    }
+    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return nil
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return self.viewModel.model?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.model?.count ?? 0
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -105,14 +120,55 @@ extension SeriesListViewController: UITableViewDataSource {
                 return T(style: .default, reuseIdentifier: identifier.identifier)
             }
         }
-        let section = indexPath.section
-        let row = indexPath.row
         let cell: SeriesListTableViewCell = dequeue(with: .cell)
-        if let models = self.viewModel.model {
-            let model = models[row]
-            cell.title = model.name
-            cell.poster = model.image?.medium
-        }
+        cell.dataSource = self
+        cell.collectionView.reloadData()
         return cell
     }
+}
+
+extension SeriesListViewController: SeriesListTableViewCellDataSource {
+    func seriesListTableViewCell(numberOfItems cell: SeriesListTableViewCell) -> Int {
+        if let model = self.viewModel.model,
+            let indexPath = self.tableView.indexPath(for: cell), indexPath.section < model.count {
+            let rows = model[indexPath.section]
+            return rows.count
+        }
+        
+        return 0
+    }
+    
+    func seriesListTableViewCell(_ cell: SeriesListTableViewCell, didSelectItem at: IndexPath) {
+        
+    }
+    
+    func seriesListTableViewCell(_ collectionView: UICollectionView, _ cell: SeriesListTableViewCell, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        func dequeue<T: UICollectionViewCell>(with identifier: String,_ indexPath: IndexPath) -> T {
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? T {
+                return cell
+            } else {
+                return T(frame: .zero)
+            }
+        }
+        
+        if let model = self.viewModel.model,
+           let tableIndexPath = self.tableView.indexPath(for: cell),
+            tableIndexPath.section < model.count, indexPath.row < model[tableIndexPath.section].count {
+            let section = tableIndexPath.section
+            let row = indexPath.row
+            
+            let itemModel = model[section][row]
+            let identifier = SeriesListTableViewCell.Cells.posters.identifier
+            
+            let cell: SeriesListCollectionViewCell = dequeue(with: identifier, indexPath)
+            cell.poster = itemModel.image?.medium
+            cell.title = itemModel.name
+
+            return cell
+        }
+        
+        return .init(frame: .zero)
+    }
+    
+    
 }

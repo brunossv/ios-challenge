@@ -10,39 +10,44 @@
 import Foundation
 import UIKit
 
+protocol SeriesListTableViewCellDataSource: AnyObject {
+    func seriesListTableViewCell(numberOfItems cell: SeriesListTableViewCell) -> Int
+    func seriesListTableViewCell(_ cell: SeriesListTableViewCell, didSelectItem at: IndexPath)
+    func seriesListTableViewCell(_ collectionView: UICollectionView, _ cell: SeriesListTableViewCell, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+}
+
 class SeriesListTableViewCell: UITableViewCell {
     
-    private lazy var posterImageView: UIImageView = {
-        let view = UIImageView()
+    enum Cells: CaseIterable {
+        case posters
+        
+        var identifier: String {
+            switch self {
+            case .posters:
+                return "SeriesListCollectionViewCell"
+            }
+        }
+        
+        var `class`: AnyClass? {
+            switch self {
+            case .posters:
+                return SeriesListCollectionViewCell.self
+            }
+        }
+    }
+    
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 2, left: 0, bottom: 0, right: 0)
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 110, height: 190)
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
     }()
     
-    private lazy var titleLabel: UILabel = {
-        let view = UILabel()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.numberOfLines = 0
-
-        return view
-    }()
-    
-    var title: String? {
-        get { return self.titleLabel.text }
-        set { self.titleLabel.text = newValue }
-    }
-    
-    var poster: String? {
-        didSet {
-            guard let url = self.poster else {
-                return
-            }
-            
-            Task {
-                self.posterImageView.image = try? await Services().loadImage(url)
-            }
-        }
-    }
+    weak var dataSource: SeriesListTableViewCellDataSource?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -54,29 +59,48 @@ class SeriesListTableViewCell: UITableViewCell {
     }
     
     private func configureSubviews() {
-        self.contentView.addSubview(self.posterImageView)
-        self.contentView.addSubview(self.titleLabel)
-        
-        let constant: CGFloat = 10
-        let posterHeight: CGFloat = 300
-        let posterWidth: CGFloat = 200
-        NSLayoutConstraint.activate([
-            self.posterImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: constant),
-            self.posterImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            self.posterImageView.heightAnchor.constraint(equalToConstant: posterHeight),
-            self.posterImageView.widthAnchor.constraint(equalToConstant: posterWidth)
-        ])
+        self.contentView.addSubview(self.collectionView)
         
         NSLayoutConstraint.activate([
-            self.titleLabel.topAnchor.constraint(equalTo: self.posterImageView.bottomAnchor, constant: constant),
-            self.titleLabel.leadingAnchor.constraint(equalTo: self.posterImageView.leadingAnchor, constant: constant),
-            self.titleLabel.trailingAnchor.constraint(equalTo: self.posterImageView.trailingAnchor, constant: -constant),
-            self.titleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -constant)
+            self.collectionView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
+            self.collectionView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
+            self.collectionView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
+            self.collectionView.heightAnchor.constraint(equalToConstant: 195)
         ])
+        
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        
+        for cell in Cells.allCases {
+            self.collectionView.register(cell.class, forCellWithReuseIdentifier: cell.identifier)
+        }
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.initialize()
+    }
+}
+
+extension SeriesListTableViewCell: UICollectionViewDelegate {
+    
+}
+
+extension SeriesListTableViewCell: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 110, height: 190)
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.dataSource?.seriesListTableViewCell(numberOfItems: self) ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return self.dataSource?.seriesListTableViewCell(collectionView, self, cellForItemAt: indexPath) ?? .init(frame: .zero)
     }
 }

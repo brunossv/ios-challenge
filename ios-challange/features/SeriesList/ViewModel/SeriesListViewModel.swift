@@ -11,13 +11,13 @@ import Foundation
 
 class SeriesListViewModel {
     let api = SeriesListAPI()
-    var model: [SeriesListModel]?
+    var model: [[SeriesListModel]]?
     
     func request(_ completion: @escaping (_ error: String?) -> Void) {
         self.api.get { result in
             switch result {
             case .success(let model):
-                self.model = model
+                self.model = model?.groupedByGenres()
                 completion(nil)
             case .failure(let error):
                 completion(error.localizedDescription)
