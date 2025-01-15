@@ -49,13 +49,13 @@ class SeriesListViewController: UIViewController {
     
     func getData() {
         Alert(self).startLoading()
-        self.viewModel.request { error in
+        self.viewModel.request { [weak self] error in
             Alert(self).stopLoading()
             if let error = error {
                 Alert(self).present(error: error)
                 return
             }
-            self.tableView.reloadData()
+            self?.tableView.reloadData()
         }
     }
     
@@ -82,6 +82,16 @@ class SeriesListViewController: UIViewController {
 extension SeriesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if ((self.viewModel.model?.count ?? 0) - 1) == indexPath.section {
+            Alert(self).startLoading()
+            self.viewModel.getNextPage { [weak self] in
+                Alert(self).stopLoading()
+                self?.tableView.reloadData()
+            }
+        }
     }
 }
 

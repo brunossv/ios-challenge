@@ -10,6 +10,7 @@
 import Foundation
 
 struct SeriesListModel: Codable {
+    var id: Int?
     var name: String?
     var image: Poster?
     var schedule: Schedule?

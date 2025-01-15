@@ -25,7 +25,7 @@ extension HandlerResponse {
 
 class SeriesListAPI: HandlerResponse {
     struct Resources {
-        static var url: String { get { Services.baseUrl + "/shows?page=1" } }
+        static var url: String { get { Services.baseUrl + "/shows?page=" } }
     }
     
     struct DataError: Error, LocalizedError {
@@ -37,7 +37,15 @@ class SeriesListAPI: HandlerResponse {
     func get(_ handler: @escaping (Result<[SeriesListModel]?, Error>) -> Void) {
         let api = Services()
         
-        api.request(Resources.url) { (model: [SeriesListModel]?, error) in
+        api.request(Resources.url + "0") { (model: [SeriesListModel]?, error) in
+            handler(SeriesListAPI.handler(model, SeriesListAPI.DataError()))
+        }
+    }
+    
+    func getNext(page: Int,_ handler: @escaping (Result<[SeriesListModel]?, Error>) -> Void) {
+        let api = Services()
+        
+        api.request(Resources.url + "\(page)") { (model: [SeriesListModel]?, error) in
             handler(SeriesListAPI.handler(model, SeriesListAPI.DataError()))
         }
     }

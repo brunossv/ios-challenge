@@ -24,4 +24,17 @@ class SeriesListViewModel {
             }
         }
     }
+    
+    func getNextPage(_ completion: @escaping () -> Void) {
+        let nextPage = ((self.model?.last?.last?.id ?? 0) / 250) + 1
+        self.api.getNext(page: nextPage) { result in
+            switch result {
+            case .success(let model):
+                self.model?.append(contentsOf: model?.groupedByGenres() ?? [])
+                completion()
+            case .failure(let error):
+                completion()
+            }
+        }
+    }
 }
