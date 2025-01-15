@@ -25,7 +25,9 @@ extension HandlerResponse {
 
 class SeriesListAPI: HandlerResponse {
     struct Resources {
-        static var url: String { get { Services.baseUrl + "/shows?page=" } }
+        static var url: String { get { Services.baseUrl } }
+        static var page: String { get { Services.baseUrl + "/shows?page=" } }
+        static var searching: String { get { Services.baseUrl + "/search/shows?q=" } }
     }
     
     struct DataError: Error, LocalizedError {
@@ -37,7 +39,7 @@ class SeriesListAPI: HandlerResponse {
     func get(_ handler: @escaping (Result<[SeriesListModel]?, Error>) -> Void) {
         let api = Services()
         
-        api.request(Resources.url + "0") { (model: [SeriesListModel]?, error) in
+        api.request(Resources.page + "0") { (model: [SeriesListModel]?, error) in
             handler(SeriesListAPI.handler(model, SeriesListAPI.DataError()))
         }
     }
@@ -45,7 +47,15 @@ class SeriesListAPI: HandlerResponse {
     func getNext(page: Int,_ handler: @escaping (Result<[SeriesListModel]?, Error>) -> Void) {
         let api = Services()
         
-        api.request(Resources.url + "\(page)") { (model: [SeriesListModel]?, error) in
+        api.request(Resources.page + "\(page)") { (model: [SeriesListModel]?, error) in
+            handler(SeriesListAPI.handler(model, SeriesListAPI.DataError()))
+        }
+    }
+    
+    func getShowBy(name: String,_ handler: @escaping (Result<[ShowModel]?, Error>) -> Void) {
+        let api = Services()
+        
+        api.request(Resources.searching + name) { (model: [ShowModel]?, error) in
             handler(SeriesListAPI.handler(model, SeriesListAPI.DataError()))
         }
     }

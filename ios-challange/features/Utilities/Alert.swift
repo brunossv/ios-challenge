@@ -17,7 +17,7 @@ class Alert {
     }
     
     func present(message: String?, with handler: (() -> Void)? = nil) {
-        let viewController = UIAlertController(title: "Arch App", message: message, preferredStyle: .alert)
+        let viewController = UIAlertController(title: "iOS-Challanger", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default) { _ in
             handler?()
         }
@@ -26,7 +26,7 @@ class Alert {
     }
     
     func present(error: String?, back handler: (() -> Void)? = nil) {
-        let viewController = UIAlertController(title: "Arch App", message: error, preferredStyle: .alert)
+        let viewController = UIAlertController(title: "iOS-Challanger", message: error, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         let voltarAction = UIAlertAction(title: "Voltar", style: .default) { _ in
             handler?()
@@ -66,10 +66,13 @@ class Alert {
     }
     
     func stopLoading(_ handler: (() -> Void)? = nil) {
-        if let viewController = viewController, viewController.presentedViewController is UIAlertController {
-            viewController.dismiss(animated: false) {
-                handler?()
+        let viewController = self.viewController
+        viewController?.dismiss(animated: false, completion: {
+            handler?()
+            
+            if let viewController = viewController, viewController.presentedViewController is UIAlertController {
+                viewController.dismiss(animated: false)
             }
-        }
+        })
     }
 }

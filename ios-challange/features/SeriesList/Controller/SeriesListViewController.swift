@@ -45,12 +45,30 @@ class SeriesListViewController: UIViewController {
         super.viewDidLoad()
         self.configureTableView()
         self.getData()
+        self.configureSearchBar()
+    }
+    
+    func configureSearchBar() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.returnKeyType = .search
+        searchController.searchBar.searchTextField.delegate = self
+        searchController.searchBar.searchBarStyle = .minimal
+        
+        self.navigationItem.searchController = searchController
+    }
+    
+    @objc
+    func refreshListAction() {
+        self.getData()
+        self.navigationItem.searchController?.searchBar.text = nil
     }
     
     func getData() {
         Alert(self).startLoading()
         self.viewModel.request { [weak self] error in
             Alert(self).stopLoading()
+            self?.tableView.refreshControl?.endRefreshing()
             if let error = error {
                 Alert(self).present(error: error)
                 return
@@ -76,6 +94,26 @@ class SeriesListViewController: UIViewController {
         for cell in Cells.allCases {
             self.tableView.register(cell.class, forCellReuseIdentifier: cell.identifier)
         }
+        
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+        button.addAction(UIAction(handler: { [weak self] _ in
+            self?.refreshListAction()
+        }), for: .touchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+    }
+}
+
+extension SeriesListViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        Alert(self).startLoading()
+        self.viewModel.searchShow(by: textField.text ?? "") { [weak self] error in
+            Alert(self).stopLoading()
+            self?.tableView.reloadData()
+        }
+        
+        return true
     }
 }
 
@@ -85,6 +123,11 @@ extension SeriesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        guard self.viewModel.allowPagination else {
+            return
+        }
+        
         if ((self.viewModel.model?.count ?? 0) - 1) == indexPath.section {
             Alert(self).startLoading()
             self.viewModel.getNextPage { [weak self] in
@@ -171,9 +214,13 @@ extension SeriesListViewController: SeriesListTableViewCellDataSource {
             let identifier = SeriesListTableViewCell.Cells.posters.identifier
             
             let cell: SeriesListCollectionViewCell = dequeue(with: identifier, indexPath)
-            cell.poster = itemModel.image?.medium
             cell.title = itemModel.name
-
+            if let url = itemModel.image?.medium {
+                Task {
+                    cell.poster = try? await Services().loadImage(url)
+                }
+            }
+            
             return cell
         }
         

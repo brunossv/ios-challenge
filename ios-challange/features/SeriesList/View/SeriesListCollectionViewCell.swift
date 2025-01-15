@@ -15,6 +15,7 @@ class SeriesListCollectionViewCell: UICollectionViewCell {
         view.layer.cornerRadius = 12
         view.layer.masksToBounds = true
         view.contentMode = .scaleAspectFill
+        view.backgroundColor = UIColor(white: 0.9, alpha: 1)
         
         return view
     }()
@@ -32,16 +33,9 @@ class SeriesListCollectionViewCell: UICollectionViewCell {
         set { self.titleLabel.text = newValue }
     }
     
-    var poster: String? {
-        didSet {
-            guard let url = self.poster else {
-                return
-            }
-            
-            Task {
-                self.posterImageView.image = try? await Services().loadImage(url)
-            }
-        }
+    var poster: UIImage? {
+        get { return self.posterImageView.image }
+        set { self.posterImageView.image = newValue }
     }
     
     override init(frame: CGRect) {
