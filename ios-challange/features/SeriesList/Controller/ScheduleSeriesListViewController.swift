@@ -24,7 +24,23 @@ class ScheduleSeriesListViewController: SeriesListViewController {
     }
 }
 
+
 extension ScheduleSeriesListViewController {
+    override func seriesListTableViewCell(_ cell: SeriesListTableViewCell, didSelectItem at: IndexPath) {
+        let section = at.section
+        let row = at.row
+        
+        if let list = self.viewModel.model, section < list.count, row < list[section].count {
+            let model = list[section][row]
+            if !FavoriteSeriesModel().alreadyFavorite(name: model.name ?? "") {
+                FavoriteSeriesModel().saveSeries(model)
+            }
+        }
+    }
+}
+
+extension ScheduleSeriesListViewController {
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         guard self.viewModel.allowPagination else {

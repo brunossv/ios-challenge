@@ -63,6 +63,16 @@ struct FavoriteSeriesModel {
         
         return []
     }
+    
+    func alreadyFavorite(name: String) -> Bool {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Series")
+        fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+        
+        if let favorites = try? self.context.fetch(fetchRequest), favorites.count > 1 {
+            return true
+        }
+        return false
+    }
 }
 
 extension Array where Element: Series {

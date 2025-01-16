@@ -27,7 +27,7 @@ class SeriesListCoordinator: Coordinator {
     }
     
     func start() {
-        let viewController = SeriesListViewController(viewModel: SeriesListViewModel())
+        let viewController = ScheduleSeriesListViewController(viewModel: SeriesListViewModel())
         viewController.coordinator = self
         self.navigationController?.pushViewController(viewController, animated: true)
     }

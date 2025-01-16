@@ -9,10 +9,12 @@
 
 import Foundation
 import UIKit
+protocol SeriesListTableViewCellDelegate: AnyObject {
+    func seriesListTableViewCell(_ cell: SeriesListTableViewCell, didSelectItem at: IndexPath)
+}
 
 protocol SeriesListTableViewCellDataSource: AnyObject {
     func seriesListTableViewCell(numberOfItems cell: SeriesListTableViewCell) -> Int
-    func seriesListTableViewCell(_ cell: SeriesListTableViewCell, didSelectItem at: IndexPath)
     func seriesListTableViewCell(_ collectionView: UICollectionView, _ cell: SeriesListTableViewCell, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 }
 
@@ -48,6 +50,7 @@ class SeriesListTableViewCell: UITableViewCell {
     }()
     
     weak var dataSource: SeriesListTableViewCellDataSource?
+    weak var delegate: SeriesListTableViewCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -83,7 +86,9 @@ class SeriesListTableViewCell: UITableViewCell {
 }
 
 extension SeriesListTableViewCell: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.delegate?.seriesListTableViewCell(self, didSelectItem: indexPath)
+    }
 }
 
 extension SeriesListTableViewCell: UICollectionViewDataSource {

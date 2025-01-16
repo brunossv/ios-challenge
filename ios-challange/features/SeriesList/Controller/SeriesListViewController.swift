@@ -163,8 +163,16 @@ extension SeriesListViewController: UITableViewDataSource {
         }
         let cell: SeriesListTableViewCell = dequeue(with: .cell)
         cell.dataSource = self
+        cell.delegate = self
         cell.collectionView.reloadData()
         return cell
+    }
+}
+
+extension SeriesListViewController: SeriesListTableViewCellDelegate {
+    @objc
+    func seriesListTableViewCell(_ cell: SeriesListTableViewCell, didSelectItem at: IndexPath) {
+        
     }
 }
 
@@ -177,10 +185,6 @@ extension SeriesListViewController: SeriesListTableViewCellDataSource {
         }
         
         return 0
-    }
-    
-    func seriesListTableViewCell(_ cell: SeriesListTableViewCell, didSelectItem at: IndexPath) {
-        
     }
     
     func seriesListTableViewCell(_ collectionView: UICollectionView, _ cell: SeriesListTableViewCell, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
