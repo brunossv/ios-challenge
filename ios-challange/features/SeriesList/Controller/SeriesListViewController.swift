@@ -37,15 +37,27 @@ class SeriesListViewController: UIViewController {
         return view
     }()
     
-    var viewModel: SeriesListViewModel = SeriesListViewModel()
+    var viewModel: SeriesListViewModelProtocol
     
     weak var coordinator: SeriesListCoordinatorProtocol?
+    
+    init(viewModel: SeriesListViewModelProtocol, coordinator: SeriesListCoordinatorProtocol? = nil) {
+        self.viewModel = viewModel
+        self.coordinator = coordinator
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureTableView()
         self.getData()
         self.configureSearchBar()
+        self.configureNavigationButtons()
     }
     
     func configureSearchBar() {
@@ -56,12 +68,6 @@ class SeriesListViewController: UIViewController {
         searchController.searchBar.searchBarStyle = .minimal
         
         self.navigationItem.searchController = searchController
-    }
-    
-    @objc
-    func refreshListAction() {
-        self.getData()
-        self.navigationItem.searchController?.searchBar.text = nil
     }
     
     func getData() {
@@ -94,13 +100,10 @@ class SeriesListViewController: UIViewController {
         for cell in Cells.allCases {
             self.tableView.register(cell.class, forCellReuseIdentifier: cell.identifier)
         }
+    }
+    
+    func configureNavigationButtons() {
         
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
-        button.addAction(UIAction(handler: { [weak self] _ in
-            self?.refreshListAction()
-        }), for: .touchUpInside)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
     }
 }
 
@@ -120,21 +123,6 @@ extension SeriesListViewController: UITextFieldDelegate {
 extension SeriesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        guard self.viewModel.allowPagination else {
-            return
-        }
-        
-        if ((self.viewModel.model?.count ?? 0) - 1) == indexPath.section {
-            Alert(self).startLoading()
-            self.viewModel.getNextPage { [weak self] in
-                Alert(self).stopLoading()
-                self?.tableView.reloadData()
-            }
-        }
     }
 }
 

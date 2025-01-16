@@ -17,6 +17,7 @@ struct SeriesListModel: Codable {
     var genres: [String]?
     var summary: String?
     var type: String?
+    var seasons: [SeasonModel]?
     
     struct Poster: Codable {
         var medium: String?

@@ -9,7 +9,19 @@
 
 import Foundation
 
-class SeriesListViewModel {
+protocol SeriesListViewModelProtocol {
+    var model: [[SeriesListModel]]? { get set }
+    var allowPagination: Bool { get set }
+    
+    func request(_ completion: @escaping (_ error: String?) -> Void)
+    func searchShow(by name: String, _ completion: @escaping (_ error: String?) -> Void)
+}
+
+protocol SeriesListPaginationViewModelProtocol: SeriesListViewModelProtocol {
+    func getNextPage(_ completion: @escaping () -> Void)
+}
+
+class SeriesListViewModel: SeriesListPaginationViewModelProtocol {
     let api = SeriesListAPI()
     var model: [[SeriesListModel]]?
     var allowPagination: Bool = true
