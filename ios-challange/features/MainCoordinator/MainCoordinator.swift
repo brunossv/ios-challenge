@@ -65,13 +65,23 @@ class MainCoordinator: Coordinator {
         
         let liveCoordinator = SeriesListCoordinator(navigationController: liveNavigationController)
         liveCoordinator.start()
+        self.childCoordinator.append(liveCoordinator)
         
         let favoritesNavigationController = UINavigationController()
         favoritesNavigationController.tabBarItem.image = UIImage(systemName: Tabs.favorites.image)
         favoritesNavigationController.tabBarItem.title = Tabs.favorites.title
         let favoritesCoordinator = FavoriteSeriesCoordinator(navigationController: favoritesNavigationController)
         favoritesCoordinator.start()
+        self.childCoordinator.append(favoritesCoordinator)
         
         self.tabController?.setViewControllers([liveNavigationController, favoritesNavigationController], animated: true)
+    }
+    
+    func back() {
+        
+    }
+    
+    func dismiss(_ handler: (() -> Void)?) {
+        
     }
 }

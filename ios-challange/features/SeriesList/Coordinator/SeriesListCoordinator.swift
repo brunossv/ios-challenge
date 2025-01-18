@@ -10,11 +10,13 @@
 import Foundation
 import UIKit
 
-protocol SeriesListCoordinatorProtocol: AnyObject {
-    
+protocol SeriesListCoordinatorProtocol: Coordinator {
+    func openSeriesDetail(model: SeriesListModel)
+    func openEpisodeList(model: [EpisodeModel])
+    func openEpisodeDetail(model: EpisodeModel)
 }
 
-class SeriesListCoordinator: Coordinator {
+class SeriesListCoordinator {
     var childCoordinator: [Coordinator]
     
     var navigationController: UINavigationController?
@@ -34,5 +36,21 @@ class SeriesListCoordinator: Coordinator {
 }
 
 extension SeriesListCoordinator: SeriesListCoordinatorProtocol {
+    func openSeriesDetail(model: SeriesListModel) {
+        let viewModel = SeriesDetailViewModel(seriesModel: model)
+        let viewController = SeriesDetailViewController(viewModel: viewModel, coordinator: self)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
     
+    func openEpisodeList(model: [EpisodeModel]) {
+        let viewModel = EpisodesListViewModel(model: model)
+        let viewController = EpisodesListViewController(viewModel: viewModel, coordinator: self)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func openEpisodeDetail(model: EpisodeModel) {
+        let viewModel = EpisodeDetailViewModel(model: model)
+        let viewController = EpisodeDetailViewController(viewModel: viewModel, coordinator: self)
+        self.navigationController?.present(viewController, animated: true)
+    }
 }

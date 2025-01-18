@@ -7,6 +7,7 @@
 import UIKit
 
 class FavoriteSeriesCoordinator: Coordinator {
+    
     var childCoordinator: [Coordinator]
     
     var navigationController: UINavigationController?
@@ -24,5 +25,15 @@ class FavoriteSeriesCoordinator: Coordinator {
 }
 
 extension FavoriteSeriesCoordinator: SeriesListCoordinatorProtocol {
+    func openSeriesDetail(model: SeriesListModel) {
+        
+    }
     
+    func openEpisodeList(model: [EpisodeModel]) {
+        
+    }
+    
+    func openEpisodeDetail(model: EpisodeModel) {
+        
+    }
 }

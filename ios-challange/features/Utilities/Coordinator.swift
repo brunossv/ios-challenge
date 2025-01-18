@@ -12,3 +12,13 @@ protocol Coordinator: AnyObject {
     var navigationController: UINavigationController? { get set }
     func start()
 }
+
+extension Coordinator {
+    func back() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func dismiss(_ handler: (() -> Void)? = nil) {
+        self.navigationController?.dismiss(animated: true)
+    }
+}

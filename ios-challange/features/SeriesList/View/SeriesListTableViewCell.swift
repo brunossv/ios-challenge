@@ -18,7 +18,7 @@ protocol SeriesListTableViewCellDataSource: AnyObject {
     func seriesListTableViewCell(_ collectionView: UICollectionView, _ cell: SeriesListTableViewCell, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 }
 
-class SeriesListTableViewCell: UITableViewCell {
+class SeriesListTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
     
     enum Cells: CaseIterable {
         case posters
@@ -59,6 +59,7 @@ class SeriesListTableViewCell: UITableViewCell {
     
     func initialize() {
         self.configureSubviews()
+        self.configureCells()
     }
     
     private func configureSubviews() {
@@ -73,7 +74,9 @@ class SeriesListTableViewCell: UITableViewCell {
         
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
-        
+    }
+    
+    func configureCells() {
         for cell in Cells.allCases {
             self.collectionView.register(cell.class, forCellWithReuseIdentifier: cell.identifier)
         }
@@ -83,15 +86,10 @@ class SeriesListTableViewCell: UITableViewCell {
         super.init(coder: coder)
         self.initialize()
     }
-}
 
-extension SeriesListTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.delegate?.seriesListTableViewCell(self, didSelectItem: indexPath)
     }
-}
-
-extension SeriesListTableViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 110, height: 190)

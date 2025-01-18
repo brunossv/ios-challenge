@@ -34,8 +34,9 @@ struct FavoriteSeriesModel {
                 let episodesObject = entity("Episodes") as? Episodes
                 episodesObject?.name = episodeModel.name
                 episodesObject?.summary = episodeModel.summary
-                episodesObject?.number = Int16(episodeModel.episode ?? 0)
-                episodesObject?.image = episodeModel.image
+                episodesObject?.number = Int16(episodeModel.number ?? 0)
+                episodesObject?.season = Int16(episodeModel.season ?? 0)
+                episodesObject?.image = episodeModel.image?.medium
                 
                 if let episode = episodesObject {
                     seasonsObject?.addToEpisodes(episode)

@@ -27,14 +27,13 @@ class ScheduleSeriesListViewController: SeriesListViewController {
 
 extension ScheduleSeriesListViewController {
     override func seriesListTableViewCell(_ cell: SeriesListTableViewCell, didSelectItem at: IndexPath) {
-        let section = at.section
+        guard let indexPath = self.tableView.indexPath(for: cell) else { return }
+        let section = indexPath.section
         let row = at.row
         
         if let list = self.viewModel.model, section < list.count, row < list[section].count {
             let model = list[section][row]
-            if !FavoriteSeriesModel().alreadyFavorite(name: model.name ?? "") {
-                FavoriteSeriesModel().saveSeries(model)
-            }
+            self.coordinator?.openSeriesDetail(model: model)
         }
     }
 }
