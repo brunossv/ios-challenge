@@ -79,10 +79,10 @@ class SeriesListAPI: HandlerResponse {
         }
     }
     
-    func getCasters(show: Int, _ handler: @escaping (Result<Array<CasterModel>?, Error>) -> Void) {
+    func getCasters(show: Int, _ handler: @escaping (Result<Array<CastModel>?, Error>) -> Void) {
         let api = Services()
         
-        api.request(Resources.casters(show)) { (model: [CasterModel]?, error) in
+        api.request(Resources.casters(show)) { (model: [CastModel]?, error) in
             handler(SeriesListAPI.handler(model, SeriesListAPI.DataError()))
         }
     }

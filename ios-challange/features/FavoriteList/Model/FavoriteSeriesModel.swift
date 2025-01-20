@@ -30,13 +30,13 @@ struct FavoriteSeriesModel {
         serieObject.days = series.schedule?.days?.transformToStringSeparedByComma()
         serieObject.time = series.schedule?.time
         
-        series.casters?.forEach({ caster in
-            let casterObject: Casters = entity(named: "Casters")
-            casterObject.actorName = caster.person?.name
-            casterObject.casterName = caster.character?.name
-            casterObject.image = caster.person?.image?.medium ?? caster.person?.image?.original
+        series.cast?.forEach({ cast in
+            let castObject: Cast = entity(named: "Casters")
+            castObject.actorName = cast.person?.name
+            castObject.characterName = cast.character?.name
+            castObject.image = cast.person?.image?.medium ?? cast.person?.image?.original
             
-            serieObject.addToCasters(casterObject)
+            serieObject.addToCast(castObject)
         })
         series.seasons?.forEach({ seasonModel in
             let seasonObject: Seasons = entity(named: "Seasons")
@@ -106,7 +106,7 @@ extension Array where Element: Series {
             model.summary = series.summary
             model.seasons = (series.seasons?.allObjects as? [Seasons])?.mapToSeasonModel()
             model.seasons = model.seasons?.sorted(by: { $0.number ?? 0 < $1.number ?? 0 })
-            model.casters = (series.casters?.allObjects as? [Casters])?.mapToCasterModel()
+            model.cast = (series.cast?.allObjects as? [Cast])?.mapToCasterModel()
             
             return model
         })

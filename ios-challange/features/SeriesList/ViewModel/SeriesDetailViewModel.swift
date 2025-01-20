@@ -99,7 +99,7 @@ class SeriesDetailViewModel {
         self.api.getCasters(show: seriesID) { [weak self] result in
             switch result {
             case .success(let model):
-                self?.seriesModel?.casters = model
+                self?.seriesModel?.cast = model
                 completion(nil)
             case .failure(let error):
                 completion(error.localizedDescription)

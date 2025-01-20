@@ -18,7 +18,7 @@ struct SeriesListModel: Codable {
     var summary: String?
     var type: String?
     var seasons: [SeasonModel]?
-    var casters: [CasterModel]?
+    var cast: [CastModel]?
     
     struct Poster: Codable {
         var medium: String?

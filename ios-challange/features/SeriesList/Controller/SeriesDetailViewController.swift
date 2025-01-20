@@ -222,7 +222,7 @@ extension SeriesDetailViewController: UITableViewDataSource {
 
             case .cast:
                 let castCell: SeriesCastTableViewCell = dequeue(with: .cast)
-                if let casters = self.viewModel.seriesModel?.casters {
+                if let casters = self.viewModel.seriesModel?.cast {
                     castCell.setupCollection(of: casters.count) { item in
                         if item < casters.count {
                             let image = casters[item].person?.image?.medium ?? ""
