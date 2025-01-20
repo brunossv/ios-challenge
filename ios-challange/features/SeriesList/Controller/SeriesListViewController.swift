@@ -172,7 +172,14 @@ extension SeriesListViewController: UITableViewDataSource {
 extension SeriesListViewController: SeriesListTableViewCellDelegate {
     @objc
     func seriesListTableViewCell(_ cell: SeriesListTableViewCell, didSelectItem at: IndexPath) {
+        guard let indexPath = self.tableView.indexPath(for: cell) else { return }
+        let section = indexPath.section
+        let row = at.row
         
+        if let list = self.viewModel.model, section < list.count, row < list[section].count {
+            let model = list[section][row]
+            self.coordinator?.openSeriesDetail(model: model)
+        }
     }
 }
 

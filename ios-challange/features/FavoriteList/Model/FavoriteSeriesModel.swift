@@ -16,41 +16,41 @@ struct FavoriteSeriesModel {
     }
     
     func saveSeries(_ series: SeriesListModel) {
-        let entity: (String) -> NSManagedObject = { (name) in
-            return NSEntityDescription.insertNewObject(forEntityName: name, into: self.context)
+        func entity<T: NSManagedObject>(named: String) -> T {
+            if let object = NSEntityDescription.insertNewObject(forEntityName: named, into: self.context) as? T {
+                return object
+            }
+            return T()
         }
-        let seriesObject = entity("Series") as? Series
-        seriesObject?.name = series.name
-        seriesObject?.poster = series.image?.medium
-        seriesObject?.genres = series.genres
-        seriesObject?.summary = series.summary
+        let serieObject: Series = entity(named: "Series")
+        serieObject.name = series.name
+        serieObject.poster = series.image?.medium
+        serieObject.genres = series.genres?.transformToStringSeparedByComma()
+        serieObject.summary = series.summary
+        serieObject.days = series.schedule?.days?.transformToStringSeparedByComma()
+        serieObject.time = series.schedule?.time
         
         series.seasons?.forEach({ seasonModel in
-            let seasonsObject = entity("Seasons") as? Seasons
-            seasonsObject?.name = seasonModel.name
-            seasonsObject?.series = seriesObject
+            let seasonObject: Seasons = entity(named: "Seasons")
+            seasonObject.number = Int16(seasonModel.number ?? 0)
             
             seasonModel.episodes?.forEach({ episodeModel in
-                let episodesObject = entity("Episodes") as? Episodes
-                episodesObject?.name = episodeModel.name
-                episodesObject?.summary = episodeModel.summary
-                episodesObject?.number = Int16(episodeModel.number ?? 0)
-                episodesObject?.season = Int16(episodeModel.season ?? 0)
-                episodesObject?.image = episodeModel.image?.medium
+                let episodesObject: Episodes = entity(named: "Episodes")
+                episodesObject.name = episodeModel.name
+                episodesObject.summary = episodeModel.summary
+                episodesObject.number = Int16(episodeModel.number ?? 0)
+                episodesObject.season = Int16(episodeModel.season ?? 0)
+                episodesObject.image = episodeModel.image?.original ?? episodeModel.image?.medium
                 
-                if let episode = episodesObject {
-                    seasonsObject?.addToEpisodes(episode)
-                }
+                seasonObject.addToEpisodes(episodesObject)
             })
-            
-            if let seasons = seasonsObject {
-                seriesObject?.addToSeasons(seasons)
-            }
+            serieObject.addToSeasons(seasonObject)
         })
         
         do {
             try self.context.save()
         } catch {
+            print(error)
         }
     }
     
@@ -69,10 +69,21 @@ struct FavoriteSeriesModel {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Series")
         fetchRequest.predicate = NSPredicate(format: "name == %@", name)
         
-        if let favorites = try? self.context.fetch(fetchRequest), favorites.count > 1 {
+        if let favorites = try? self.context.fetch(fetchRequest), favorites.count > 0 {
             return true
         }
         return false
+    }
+    
+    func deleteFavorite(named: String) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Series")
+        fetchRequest.predicate = NSPredicate(format: "name == %@", named)
+        if let favorites = try? self.context.fetch(fetchRequest) as? [NSManagedObject] {
+            for favorite in favorites {
+                self.context.delete(favorite)
+            }
+            try? self.context.save()
+        }
     }
 }
 
@@ -80,16 +91,37 @@ extension Array where Element: Series {
     func mapToSeriesListModel() -> [SeriesListModel] {
         let result = self.map({ series in
             var model = SeriesListModel()
-            model.genres = series.genres
+            model.genres = series.genres?.transformStringSeparatedByCommaToArray()
             model.image = SeriesListModel.Poster(medium: series.poster)
             model.name = series.name
-            model.schedule = SeriesListModel.Schedule(time: series.schedules?.time, days: series.schedules?.days)
+            model.schedule = SeriesListModel.Schedule(time: series.time, days: series.days?.transformStringSeparatedByCommaToArray())
             model.summary = series.summary
             model.seasons = (series.seasons?.allObjects as? [Seasons])?.mapToSeasonModel()
+            model.seasons = model.seasons?.sorted(by: { $0.number ?? 0 < $1.number ?? 0 })
             
             return model
         })
         
         return result
+    }
+}
+
+//This is necessary until Xcode has an error with Transformable custom types.
+fileprivate extension Array {
+    func transformToStringSeparedByComma() -> String {
+        var stringResult: String = ""
+        for item in self {
+            stringResult += "\(item)-"
+        }
+        
+        stringResult.removeLast()
+        
+        return stringResult
+    }
+}
+
+fileprivate extension String {
+    func transformStringSeparatedByCommaToArray() -> [String] {
+        return self.split(separator: "-").map(String.init)
     }
 }

@@ -26,14 +26,20 @@ class FavoriteSeriesCoordinator: Coordinator {
 
 extension FavoriteSeriesCoordinator: SeriesListCoordinatorProtocol {
     func openSeriesDetail(model: SeriesListModel) {
-        
+        let viewModel = FavoriteSerieDetailViewModel(seriesModel: model)
+        let viewController = FavoriteSerieDetailViewController(viewModel: viewModel, coordinator: self)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     func openEpisodeList(model: [EpisodeModel]) {
-        
+        let viewModel = EpisodesListViewModel(model: model)
+        let viewController = EpisodesListViewController(viewModel: viewModel, coordinator: self)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     func openEpisodeDetail(model: EpisodeModel) {
-        
+        let viewModel = EpisodeDetailViewModel(model: model)
+        let viewController = EpisodeDetailViewController(viewModel: viewModel, coordinator: self)
+        self.navigationController?.present(viewController, animated: true)
     }
 }

@@ -13,7 +13,8 @@ class FavoriteSeriesListViewModel: SeriesListViewModelProtocol {
     func request(_ completion: @escaping (String?) -> Void) {
         let favoriteModel = FavoriteSeriesModel()
         let favoritesArray = favoriteModel.listingAllFavorites().mapToSeriesListModel()
-        self.model = [favoritesArray]
+        self.model = favoritesArray.groupedByGenres()
+        completion(nil)
     }
     
     func searchShow(by name: String, _ completion: @escaping (String?) -> Void) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24C101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Episodes" representedClassName="Episodes" syncable="YES" codeGenerationType="class">
+    <entity name="Episodes" representedClassName="Episodes" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="number" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -8,22 +9,20 @@
         <attribute name="summary" optional="YES" attributeType="String"/>
         <relationship name="seasons" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Seasons" inverseName="episodes" inverseEntity="Seasons"/>
     </entity>
-    <entity name="Schedule" representedClassName="Schedule" syncable="YES" codeGenerationType="class">
-        <attribute name="days" optional="YES" attributeType="Transformable" customClassName="[String]"/>
-        <attribute name="time" optional="YES" attributeType="String"/>
-        <relationship name="series" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Series" inverseName="schedules" inverseEntity="Series"/>
-    </entity>
-    <entity name="Seasons" representedClassName="Seasons" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String"/>
+    <entity name="Seasons" representedClassName="Seasons" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="number" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="episodes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Episodes" inverseName="seasons" inverseEntity="Episodes"/>
-        <relationship name="series" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Series" inverseName="seasons" inverseEntity="Series"/>
+        <relationship name="serie" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Series" inverseName="seasons" inverseEntity="Series"/>
     </entity>
-    <entity name="Series" representedClassName="Series" syncable="YES" codeGenerationType="class">
-        <attribute name="genres" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+    <entity name="Series" representedClassName="Series" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="days" optional="YES" attributeType="String" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="[String]"/>
+        <attribute name="genres" optional="YES" attributeType="String" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="[String]"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="poster" optional="YES" attributeType="String"/>
         <attribute name="summary" optional="YES" attributeType="String"/>
-        <relationship name="schedules" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Schedule" inverseName="series" inverseEntity="Schedule"/>
-        <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Seasons" inverseName="series" inverseEntity="Seasons"/>
+        <attribute name="time" optional="YES" attributeType="String"/>
+        <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Seasons" inverseName="serie" inverseEntity="Seasons"/>
     </entity>
 </model>

@@ -5,6 +5,8 @@
 //  Created by Bruno Soares on 16/01/25.
 //
 
+import UIKit
+
 class FavoriteSeriesController: SeriesListViewController {
     
     override func viewDidAppear(_ animated: Bool) {

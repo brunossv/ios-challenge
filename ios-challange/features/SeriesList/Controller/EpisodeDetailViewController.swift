@@ -70,7 +70,7 @@ class EpisodeDetailViewController: UIViewController {
         self.episodeView.seasonEp = "S\(model.season ?? 0)EP\(model.number ?? 0)"
         self.episodeView.summary = model.summary
         
-        if let url = model.image?.original {
+        if let url = model.image?.original ?? model.image?.medium {
             Task {
                 self.episodeView.posterImage = try? await Services().loadImage(url)
             }

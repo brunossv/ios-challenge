@@ -16,7 +16,7 @@ extension Array where Element: Seasons {
     func mapToSeasonModel() -> [SeasonModel] {
         let result = self.map({ seasons in
             var model = SeasonModel()
-            model.name = seasons.name
+            model.number = Int(seasons.number)
             model.episodes = (seasons.episodes?.allObjects as? [Episodes])?.mapToEpisodeModel()
             
             return model

@@ -46,6 +46,13 @@ class SeriesDetailViewController: UIViewController {
         return view
     }()
     
+    private lazy var favoriteButton: UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     var viewModel: SeriesDetailViewModel
     
     weak var coordinator: SeriesListCoordinatorProtocol?
@@ -64,8 +71,12 @@ class SeriesDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureTableView()
+        self.configureNavButtons()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.getData()
-        self.getCasters()
     }
     
     func getData() {
@@ -76,11 +87,29 @@ class SeriesDetailViewController: UIViewController {
         }
     }
     
-    func getCasters() {
-        Alert(self).startLoading()
-        self.viewModel.requestCasters { [weak self] error in
-            Alert(self).stopLoading()
-            self?.tableView.reloadData()
+    func configureNavButtons() {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        button.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
+        button.isSelected = self.viewModel.seriesSaved()
+        button.addAction(UIAction(handler: { [weak self] _ in
+            self?.favoriteNavButton(button)
+        }), for: .touchUpInside)
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+    }
+    
+    @objc
+    func favoriteNavButton(_ sender: UIButton) {
+        if sender.isSelected {
+            self.viewModel.deleteSeriesSaved()
+            sender.isSelected = false
+        } else {
+            Alert(self).startLoading()
+            self.viewModel.saveSeriesFavorites { [weak self] error in
+                Alert(self).stopLoading()
+                sender.isSelected = true
+            }
         }
     }
     
@@ -107,8 +136,10 @@ class SeriesDetailViewController: UIViewController {
 extension SeriesDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard let section = SeriesDetailViewModel.Sections(rawValue: indexPath.section),
+        section == .seasons else { return }
         let row = indexPath.row
-        if let seasons = self.viewModel.model, row < seasons.count {
+        if let seasons = self.viewModel.seriesModel?.seasons, row < seasons.count {
             let season = seasons[row]
             Alert(self).startLoading()
             self.viewModel.requestEpisodes(seasonID: season.id ?? 0) { [weak self] error in
@@ -143,7 +174,7 @@ extension SeriesDetailViewController: UITableViewDataSource {
         case .info, .cast:
             return 1
         case .seasons:
-            return self.viewModel.model?.count ?? 0
+            return self.viewModel.seriesModel?.seasons?.count ?? 0
         }
     }
     
@@ -206,7 +237,7 @@ extension SeriesDetailViewController: UITableViewDataSource {
             case .seasons:
                 let seasonsCell: UITableViewCell = dequeue(with: .seasons)
                 let row = indexPath.row
-                if let seasons = self.viewModel.model, row < seasons.count {
+                if let seasons = self.viewModel.seriesModel?.seasons, row < seasons.count {
                     let model = seasons[row]
                     var content = seasonsCell.defaultContentConfiguration()
                     content.text = "Season \(model.number ?? 0)"
