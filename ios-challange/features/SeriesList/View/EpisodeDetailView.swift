@@ -96,7 +96,6 @@ class EpisodeDetailView: UIView {
         self.addSubview(self.stackView)
         
         let constant: CGFloat = 10
-        let posterHeight: CGFloat = 100
         NSLayoutConstraint.activate([
             self.posterImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: constant),
             self.posterImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: constant),

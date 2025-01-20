@@ -74,24 +74,24 @@ class EpisodeDetailTableViewCell: UITableViewCell {
     }
     
     private func configureSubviews() {
-        self.addSubview(self.posterImageView)
-        self.addSubview(self.stackView)
+        self.contentView.addSubview(self.posterImageView)
+        self.contentView.addSubview(self.stackView)
         
         let constant: CGFloat = 10
         let posterHeight: CGFloat = 100
         let posterWidth: CGFloat = 150
         NSLayoutConstraint.activate([
-            self.posterImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: constant),
-            self.posterImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: constant),
+            self.posterImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: constant),
+            self.posterImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: constant),
             self.posterImageView.heightAnchor.constraint(equalToConstant: posterHeight),
             self.posterImageView.widthAnchor.constraint(equalToConstant: posterWidth),
-            self.posterImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -constant)
+            self.posterImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -constant)
         ])
         
         NSLayoutConstraint.activate([
             self.stackView.topAnchor.constraint(equalTo: self.posterImageView.topAnchor),
             self.stackView.leftAnchor.constraint(equalTo: self.posterImageView.rightAnchor, constant: constant),
-            self.stackView.rightAnchor.constraint(equalTo: self.rightAnchor)
+            self.stackView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor)
         ])
         
         self.stackView.addArrangedSubview(self.nameLabel)

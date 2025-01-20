@@ -42,6 +42,7 @@ class SeriesDetailViewController: UIViewController {
     lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.estimatedRowHeight = 250
         
         return view
     }()

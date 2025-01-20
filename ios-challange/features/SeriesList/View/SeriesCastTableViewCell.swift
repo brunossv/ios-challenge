@@ -45,12 +45,15 @@ class SeriesCastTableViewCell: UITableViewCell {
         for item in 0..<items {
             let view = SeriesCastView()
             let (image, caster, actor) = handler(item)
-            view.title = "\(actor) \n\(caster)"
+            view.casterString = caster
+            view.actorString = actor
             Task {
                 view.caster = try? await Services().loadImage(image)
             }
             self.stackView.addArrangedSubview(view)
         }
+        self.scrollView.layoutIfNeeded()
+        self.layoutIfNeeded()
     }
     
     private func configureSubviews() {
@@ -71,7 +74,6 @@ class SeriesCastTableViewCell: UITableViewCell {
             self.stackView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor),
             self.stackView.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor),
             self.stackView.rightAnchor.constraint(equalTo: self.scrollView.rightAnchor),
-//            self.stackView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
             self.stackView.heightAnchor.constraint(equalTo: self.scrollView.heightAnchor)
         ])
     }
