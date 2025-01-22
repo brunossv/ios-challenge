@@ -64,7 +64,7 @@ class SeriesListViewController: UIViewController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "Search"
         searchController.searchBar.returnKeyType = .search
-        searchController.searchBar.searchTextField.delegate = self
+        searchController.searchBar.delegate = self
         searchController.searchBar.searchBarStyle = .minimal
         
         self.navigationItem.searchController = searchController
@@ -107,16 +107,14 @@ class SeriesListViewController: UIViewController {
     }
 }
 
-extension SeriesListViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.endEditing(true)
+extension SeriesListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.view.endEditing(true)
         Alert(self).startLoading()
-        self.viewModel.searchShow(by: textField.text ?? "") { [weak self] error in
+        self.viewModel.searchShow(by: searchBar.text ?? "") { [weak self] error in
             Alert(self).stopLoading()
             self?.tableView.reloadData()
         }
-        
-        return true
     }
 }
 

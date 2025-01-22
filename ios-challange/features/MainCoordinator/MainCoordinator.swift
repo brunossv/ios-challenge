@@ -74,7 +74,17 @@ class MainCoordinator: Coordinator {
         favoritesCoordinator.start()
         self.childCoordinator.append(favoritesCoordinator)
         
-        self.tabController?.setViewControllers([liveNavigationController, favoritesNavigationController], animated: true)
+        let starsNavigationController = UINavigationController()
+        starsNavigationController.tabBarItem.image = UIImage(systemName: Tabs.people.image)
+        starsNavigationController.tabBarItem.title = Tabs.people.title
+        let starsCoordinator = StarSearchCoordinator(navigationController: starsNavigationController)
+        starsCoordinator.start()
+        self.childCoordinator.append(starsCoordinator)
+        
+        self.tabController?.setViewControllers([
+            liveNavigationController,
+            favoritesNavigationController,
+            starsNavigationController], animated: true)
     }
     
     func back() {
