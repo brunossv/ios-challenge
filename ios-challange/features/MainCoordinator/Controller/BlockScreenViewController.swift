@@ -22,8 +22,6 @@ class BlockScreenViewController: UIViewController {
     
     weak var coordinator: MainCoordinatorProtocol?
     
-    private var laContext = LAContext()
-    
     override func loadView() {
         self.view = self.mainView
     }
@@ -48,31 +46,14 @@ class BlockScreenViewController: UIViewController {
         self.settingUpLockScreen()
     }
     
-    private func settingUpLockScreen() {
-        switch self.laContext.biometryType {
-        case .faceID, .touchID, .opticID:
-            self.settingUpAuthentication(policy: .deviceOwnerAuthenticationWithBiometrics)
-            break
-        case .none:
-            self.settingUpAuthentication(policy: .deviceOwnerAuthentication)
-            break
-        default:
-            fatalError()
-        }
-    }
-    
-    private func settingUpAuthentication(policy: LAPolicy) {
-        var error: NSError?
-        guard self.laContext.canEvaluatePolicy(policy, error: &error) else {
-            print(error?.localizedDescription ?? "Can't evaluate policy")
-            return
-        }
-        
-        Task {
-            do {
-                try await self.laContext.evaluatePolicy(policy, localizedReason: "Unlock screen")
-                self.coordinator?.authorized()
-            } catch {}
+    func settingUpLockScreen() {
+        let model = AppAuthentication()
+        model.askAuthentication { error in
+            if let error = error {
+                Alert(self).present(message: error)
+                return
+            }
+            self.coordinator?.authorized()
         }
     }
 }

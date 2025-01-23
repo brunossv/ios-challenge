@@ -122,14 +122,19 @@ extension SettingsViewController: SettingsTableViewCellDelegate {
             return
         }
         
-        self.settingUpLockScreen { [weak self] appoved in
-            if appoved {
-                if let indexPath = self?.tableView.indexPath(for: setting),
-                   let model = SettingsViewModel.Settings(rawValue: indexPath.row) {
-                    self?.viewModel.values[model] = value
-                    UserDefaults.standard.set(value, forKey: model.id)
-                    UserDefaults.standard.synchronize()
-                }
+        let model = AppAuthentication()
+        model.askAuthentication { error in
+            if let error = error {
+                Alert(self).present(message: error)
+                setting.isOn = false
+                return
+            }
+            
+            if let indexPath = self.tableView.indexPath(for: setting),
+               let model = SettingsViewModel.Settings(rawValue: indexPath.row) {
+                self.viewModel.values[model] = value
+                UserDefaults.standard.set(value, forKey: model.id)
+                UserDefaults.standard.synchronize()
             }
         }
     }

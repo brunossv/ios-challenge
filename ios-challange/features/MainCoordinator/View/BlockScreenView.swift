@@ -40,7 +40,7 @@ class BlockScreenView: UIView {
     }
     
     private func configureSubviews() {
-        self.backgroundColor = .systemFill
+        self.backgroundColor = .systemBackground
         self.addSubview(self.tryAgainButton)
         
         let height: CGFloat = 46
