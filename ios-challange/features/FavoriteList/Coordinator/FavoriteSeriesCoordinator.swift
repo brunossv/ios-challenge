@@ -8,6 +8,8 @@ import UIKit
 
 class FavoriteSeriesCoordinator: Coordinator {
     
+    weak var coordinator: Coordinator?
+    
     var childCoordinator: [Coordinator]
     
     var navigationController: UINavigationController?
@@ -18,8 +20,8 @@ class FavoriteSeriesCoordinator: Coordinator {
     }
     
     func start() {
-        let favoriteViewController = FavoriteSeriesController(viewModel: FavoriteSeriesListViewModel())
-        favoriteViewController.coordinator = self
+        let favoriteViewController = FavoriteSeriesController(viewModel: FavoriteSeriesListViewModel(), coordinator: self)
+        favoriteViewController.title = MainCoordinator.Tabs.favorites.title
         self.navigationController?.pushViewController(favoriteViewController, animated: true)
     }
 }

@@ -21,10 +21,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let coordinator = MainCoordinator()
         coordinator.start()
+        coordinator.window = window
         self.mainCoordinator = coordinator
-        window.rootViewController = coordinator.tabController
+        self.mainCoordinator?.updatesRootViewController = { viewController in
+            window.rootViewController = viewController
+        }
         window.makeKeyAndVisible()
         self.window = window
+        self.mainCoordinator?.setupLockScreen()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -53,7 +57,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-
+        self.mainCoordinator?.setupLockScreen()
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }

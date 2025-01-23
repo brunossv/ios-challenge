@@ -29,8 +29,8 @@ class SeriesListCoordinator {
     }
     
     func start() {
-        let viewController = ScheduleSeriesListViewController(viewModel: SeriesListViewModel())
-        viewController.coordinator = self
+        let viewController = ScheduleSeriesListViewController(viewModel: SeriesListViewModel(), coordinator: self)
+        viewController.title = MainCoordinator.Tabs.live.title
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

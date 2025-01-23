@@ -100,10 +100,20 @@ class SeriesListViewController: UIViewController {
         for cell in Cells.allCases {
             self.tableView.register(cell.class, forCellReuseIdentifier: cell.identifier)
         }
+        self.tabBarController?.delegate = self
     }
     
     func configureNavigationButtons() {
         
+    }
+}
+
+extension SeriesListViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let indexPath = IndexPath(row: 0, section: 0)
+        if self.navigationController == viewController, indexPath.section < self.viewModel.model?.count ?? 0 {
+            self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        }
     }
 }
 

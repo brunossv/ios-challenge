@@ -31,7 +31,7 @@ struct FavoriteSeriesModel {
         serieObject.time = series.schedule?.time
         
         series.cast?.forEach({ cast in
-            let castObject: Cast = entity(named: "Casters")
+            let castObject: Cast = entity(named: "Cast")
             castObject.actorName = cast.person?.name
             castObject.characterName = cast.character?.name
             castObject.image = cast.person?.image?.medium ?? cast.person?.image?.original

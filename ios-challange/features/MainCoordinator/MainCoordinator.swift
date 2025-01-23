@@ -6,7 +6,11 @@
 //
 import UIKit
 
-class MainCoordinator: Coordinator {
+protocol MainCoordinatorProtocol: Coordinator {
+    func authorized()
+}
+
+class MainCoordinator {
     
     enum Tabs: String, CaseIterable {
         case live
@@ -47,6 +51,10 @@ class MainCoordinator: Coordinator {
     
     var tabController: UITabBarController?
     
+    var updatesRootViewController: ((UIViewController?) -> Void)?
+    
+    var window: UIWindow?
+    
     weak var coordinator: Coordinator?
     
     init() {
@@ -62,7 +70,6 @@ class MainCoordinator: Coordinator {
         let liveNavigationController = UINavigationController()
         liveNavigationController.tabBarItem.image = UIImage(systemName: Tabs.live.image)
         liveNavigationController.tabBarItem.title = Tabs.live.title
-        
         let liveCoordinator = SeriesListCoordinator(navigationController: liveNavigationController)
         liveCoordinator.start()
         self.childCoordinator.append(liveCoordinator)
@@ -81,17 +88,34 @@ class MainCoordinator: Coordinator {
         starsCoordinator.start()
         self.childCoordinator.append(starsCoordinator)
         
+        let settingsNavigationController = UINavigationController()
+        settingsNavigationController.tabBarItem.image = UIImage(systemName: Tabs.settings.image)
+        settingsNavigationController.tabBarItem.title = Tabs.settings.title
+        let settingsCoordinator = SettingsCoordinator(navigationController: settingsNavigationController)
+        settingsCoordinator.start()
+        self.childCoordinator.append(settingsCoordinator)
+        
         self.tabController?.setViewControllers([
             liveNavigationController,
             favoritesNavigationController,
-            starsNavigationController], animated: true)
+            starsNavigationController,
+            settingsNavigationController], animated: true)
     }
     
-    func back() {
-        
+    func setupLockScreen() {
+        let keyID = SettingsViewModel.Settings.faceID.id
+        if UserDefaults.standard.bool(forKey: keyID) && !(self.window?.rootViewController is BlockScreenViewController) {
+            let viewController = BlockScreenViewController(coordinator: self)
+            viewController.modalPresentationStyle = .fullScreen
+            self.updatesRootViewController?(viewController)
+        } else {
+            self.authorized()
+        }
     }
-    
-    func dismiss(_ handler: (() -> Void)?) {
-        
+}
+
+extension MainCoordinator: MainCoordinatorProtocol {
+    func authorized() {
+        self.updatesRootViewController?(self.tabController)
     }
 }

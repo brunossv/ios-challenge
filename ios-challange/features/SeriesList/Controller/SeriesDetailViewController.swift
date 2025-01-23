@@ -132,6 +132,11 @@ class SeriesDetailViewController: UIViewController {
             self.tableView.register(cell.class, forCellReuseIdentifier: cell.identifier)
         }
     }
+    
+    @objc
+    private func openCastDetail(_ sender: UIView) {
+        
+    }
 }
 
 extension SeriesDetailViewController: UITableViewDelegate {

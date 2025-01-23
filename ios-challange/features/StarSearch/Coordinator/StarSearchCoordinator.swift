@@ -28,6 +28,7 @@ class StarSearchCoordinator: Coordinator {
     
     func start() {
         let viewController = StarSearchViewController(viewModel: StarSearchViewModel(), coordinator: self)
+        viewController.title = MainCoordinator.Tabs.people.title
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
