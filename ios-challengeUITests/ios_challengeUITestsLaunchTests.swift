@@ -1,5 +1,5 @@
 //
-//  ios_challangeUITestsLaunchTests.swift
+//  ios_challengeUITestsLaunchTests.swift
 //  ios-challangeUITests
 //
 //  Created by Bruno Soares on 14/01/25.
@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class ios_challangeUITestsLaunchTests: XCTestCase {
+final class ios_challengeUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

@@ -10,7 +10,7 @@ struct FavoriteSeriesModel {
     private var context: NSManagedObjectContext
     
     init() {
-        let container = NSPersistentContainer(name: "ios_challange")
+        let container = NSPersistentContainer(name: "ios_challenge")
         container.loadPersistentStores { _, _ in }
         self.context = container.viewContext
     }

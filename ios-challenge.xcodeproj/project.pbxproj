@@ -24,18 +24,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6B917F7C2D36D951002A475C /* ios-challange.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-challange.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B917F952D36D954002A475C /* ios-challangeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ios-challangeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B917F9F2D36D954002A475C /* ios-challangeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ios-challangeUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B917F7C2D36D951002A475C /* ios-challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B917F952D36D954002A475C /* ios-challengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ios-challengeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B917F9F2D36D954002A475C /* ios-challengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ios-challengeUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		6B917FA72D36D954002A475C /* Exceptions for "ios-challange" folder in "ios-challange" target */ = {
+		6B917FA72D36D954002A475C /* Exceptions for "ios-challange" folder in "ios-challenge" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 6B917F7B2D36D951002A475C /* ios-challange */;
+			target = 6B917F7B2D36D951002A475C /* ios-challenge */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -43,19 +43,19 @@
 		6B917F7E2D36D951002A475C /* ios-challange */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				6B917FA72D36D954002A475C /* Exceptions for "ios-challange" folder in "ios-challange" target */,
+				6B917FA72D36D954002A475C /* Exceptions for "ios-challange" folder in "ios-challenge" target */,
 			);
 			path = "ios-challange";
 			sourceTree = "<group>";
 		};
-		6B917F982D36D954002A475C /* ios-challangeTests */ = {
+		6B917F982D36D954002A475C /* ios-challengeTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "ios-challangeTests";
+			path = "ios-challengeTests";
 			sourceTree = "<group>";
 		};
-		6B917FA22D36D954002A475C /* ios-challangeUITests */ = {
+		6B917FA22D36D954002A475C /* ios-challengeUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "ios-challangeUITests";
+			path = "ios-challengeUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -89,8 +89,8 @@
 			isa = PBXGroup;
 			children = (
 				6B917F7E2D36D951002A475C /* ios-challange */,
-				6B917F982D36D954002A475C /* ios-challangeTests */,
-				6B917FA22D36D954002A475C /* ios-challangeUITests */,
+				6B917F982D36D954002A475C /* ios-challengeTests */,
+				6B917FA22D36D954002A475C /* ios-challengeUITests */,
 				6B917F7D2D36D951002A475C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,9 +98,9 @@
 		6B917F7D2D36D951002A475C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6B917F7C2D36D951002A475C /* ios-challange.app */,
-				6B917F952D36D954002A475C /* ios-challangeTests.xctest */,
-				6B917F9F2D36D954002A475C /* ios-challangeUITests.xctest */,
+				6B917F7C2D36D951002A475C /* ios-challenge.app */,
+				6B917F952D36D954002A475C /* ios-challengeTests.xctest */,
+				6B917F9F2D36D954002A475C /* ios-challengeUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,9 +108,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6B917F7B2D36D951002A475C /* ios-challange */ = {
+		6B917F7B2D36D951002A475C /* ios-challenge */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6B917FA82D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challange" */;
+			buildConfigurationList = 6B917FA82D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challenge" */;
 			buildPhases = (
 				6B917F782D36D951002A475C /* Sources */,
 				6B917F792D36D951002A475C /* Frameworks */,
@@ -123,16 +123,16 @@
 			fileSystemSynchronizedGroups = (
 				6B917F7E2D36D951002A475C /* ios-challange */,
 			);
-			name = "ios-challange";
+			name = "ios-challenge";
 			packageProductDependencies = (
 			);
 			productName = "ios-challange";
-			productReference = 6B917F7C2D36D951002A475C /* ios-challange.app */;
+			productReference = 6B917F7C2D36D951002A475C /* ios-challenge.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6B917F942D36D954002A475C /* ios-challangeTests */ = {
+		6B917F942D36D954002A475C /* ios-challengeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6B917FAD2D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challangeTests" */;
+			buildConfigurationList = 6B917FAD2D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challengeTests" */;
 			buildPhases = (
 				6B917F912D36D954002A475C /* Sources */,
 				6B917F922D36D954002A475C /* Frameworks */,
@@ -144,18 +144,18 @@
 				6B917F972D36D954002A475C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				6B917F982D36D954002A475C /* ios-challangeTests */,
+				6B917F982D36D954002A475C /* ios-challengeTests */,
 			);
-			name = "ios-challangeTests";
+			name = "ios-challengeTests";
 			packageProductDependencies = (
 			);
 			productName = "ios-challangeTests";
-			productReference = 6B917F952D36D954002A475C /* ios-challangeTests.xctest */;
+			productReference = 6B917F952D36D954002A475C /* ios-challengeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		6B917F9E2D36D954002A475C /* ios-challangeUITests */ = {
+		6B917F9E2D36D954002A475C /* ios-challengeUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6B917FB02D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challangeUITests" */;
+			buildConfigurationList = 6B917FB02D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challengeUITests" */;
 			buildPhases = (
 				6B917F9B2D36D954002A475C /* Sources */,
 				6B917F9C2D36D954002A475C /* Frameworks */,
@@ -167,13 +167,13 @@
 				6B917FA12D36D954002A475C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				6B917FA22D36D954002A475C /* ios-challangeUITests */,
+				6B917FA22D36D954002A475C /* ios-challengeUITests */,
 			);
-			name = "ios-challangeUITests";
+			name = "ios-challengeUITests";
 			packageProductDependencies = (
 			);
 			productName = "ios-challangeUITests";
-			productReference = 6B917F9F2D36D954002A475C /* ios-challangeUITests.xctest */;
+			productReference = 6B917F9F2D36D954002A475C /* ios-challengeUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -199,7 +199,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6B917F772D36D951002A475C /* Build configuration list for PBXProject "ios-challange" */;
+			buildConfigurationList = 6B917F772D36D951002A475C /* Build configuration list for PBXProject "ios-challenge" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -214,9 +214,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6B917F7B2D36D951002A475C /* ios-challange */,
-				6B917F942D36D954002A475C /* ios-challangeTests */,
-				6B917F9E2D36D954002A475C /* ios-challangeUITests */,
+				6B917F7B2D36D951002A475C /* ios-challenge */,
+				6B917F942D36D954002A475C /* ios-challengeTests */,
+				6B917F9E2D36D954002A475C /* ios-challengeUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -272,12 +272,12 @@
 /* Begin PBXTargetDependency section */
 		6B917F972D36D954002A475C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6B917F7B2D36D951002A475C /* ios-challange */;
+			target = 6B917F7B2D36D951002A475C /* ios-challenge */;
 			targetProxy = 6B917F962D36D954002A475C /* PBXContainerItemProxy */;
 		};
 		6B917FA12D36D954002A475C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6B917F7B2D36D951002A475C /* ios-challange */;
+			target = 6B917F7B2D36D951002A475C /* ios-challenge */;
 			targetProxy = 6B917FA02D36D954002A475C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -473,7 +473,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ios-challange.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ios-challange";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ios-challenge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ios-challenge";
 			};
 			name = Debug;
 		};
@@ -492,7 +492,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ios-challange.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ios-challange";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ios-challenge.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ios-challenge";
 			};
 			name = Release;
 		};
@@ -533,7 +533,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6B917F772D36D951002A475C /* Build configuration list for PBXProject "ios-challange" */ = {
+		6B917F772D36D951002A475C /* Build configuration list for PBXProject "ios-challenge" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6B917FAB2D36D955002A475C /* Debug */,
@@ -542,7 +542,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6B917FA82D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challange" */ = {
+		6B917FA82D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challenge" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6B917FA92D36D955002A475C /* Debug */,
@@ -551,7 +551,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6B917FAD2D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challangeTests" */ = {
+		6B917FAD2D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challengeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6B917FAE2D36D955002A475C /* Debug */,
@@ -560,7 +560,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6B917FB02D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challangeUITests" */ = {
+		6B917FB02D36D955002A475C /* Build configuration list for PBXNativeTarget "ios-challengeUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6B917FB12D36D955002A475C /* Debug */,

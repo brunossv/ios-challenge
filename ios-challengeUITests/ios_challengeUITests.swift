@@ -1,5 +1,5 @@
 //
-//  ios_challangeUITests.swift
+//  ios_challengeUITests.swift
 //  ios-challangeUITests
 //
 //  Created by Bruno Soares on 14/01/25.
@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class ios_challangeUITests: XCTestCase {
+final class ios_challengeUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
