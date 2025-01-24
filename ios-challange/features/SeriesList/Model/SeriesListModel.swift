@@ -53,4 +53,17 @@ extension Array where Element == SeriesListModel {
         
         return groupedArray
     }
+    
+    func groupedAlphabetical() -> [[SeriesListModel]] {
+        let filtered = self.sorted(by: { $0.name ?? "" >= $1.name ?? ""} )
+        let grouped = Dictionary(grouping: filtered) { value in
+            return value.name?.first
+        }
+        var groupedArray: [[SeriesListModel]] = []
+        grouped.forEach { array in
+            groupedArray.append(array.value)
+        }
+        
+        return groupedArray
+    }
 }

@@ -19,4 +19,17 @@ class FavoriteSeriesController: SeriesListViewController {
             self?.tableView.reloadData()
         }
     }
+    
+    override func configureSearchBar() {
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if let model = self.viewModel.model, section < model.count {
+            let sectionModel = model[section]
+            
+            return sectionModel.first?.name?.first?.uppercased()
+        }
+        return nil
+    }
 }
